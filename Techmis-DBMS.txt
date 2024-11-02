@@ -1,0 +1,1479 @@
+---------------------------------------------------------------------
+CREATE DEPARTMENT TABLE
+---------------------------------------------------------------------
+CREATE TABLE Department(
+	Dep_id CHAR(6)NOT NULL,
+ 	Dep_name VARCHAR(50),
+	PRIMARY KEY(Dep_id));
+
+ALTER TABLE Department
+     ADD COLUMN Admin_id CHAR(10) ,
+     ADD COLUMN Dean_id CHAR(10);
+
+ALTER TABLE Department
+ADD FOREIGN KEY(Admin_id) REFERENCES Admin(Admin_id);
+
+ALTER TABLE Department
+ADD FOREIGN KEY(Dean_id) REFERENCES Dean(Dean_id);
+
+UPDATE Department
+     SET Admin_id='Ad002';
+
+UPDATE Department
+     SET Dean_id='De001';
+
+INSERT INTO Department VALUES
+ ('Dep001','Information communication technology '),
+ ('Dep002','Bio system technology '), 
+ ('Dep003','Engineering Technology '),
+ ('Dep004','Multidisciplinary');
+---------------------------------------------------------------------
+
+---------------------------------------------------------------------
+CREATE  LECTURER TABLE
+---------------------------------------------------------------------
+CREATE TABLE Lecturer(
+	Lec_id CHAR(10)NOT NULL,
+	Name VARCHAR(30),
+	Email VARCHAR(50),
+	Dep_id CHAR(6),
+	PRIMARY KEY(Lec_id),
+	FOREIGN KEY(Dep_id)REFERENCES Department(Dep_id));
+
+INSERT INTO Lecturer VALUES
+('Lec_001','Sachitha lakal','sachithal@ictec.ruh.ac.lk','Dep001'),
+('Lec_002','Chanduni gamage','chaduni@ictec.ruh.ac.lk','Dep001'),
+('Lec_003','p.h.p Nuwan laksiri','nuwan@tec.ruh.ac.lk','Dep001'),
+('Lec_004','J.W.achini','achini@fot.ruh.ac.lk','Dep001'),
+('Lec_005','Rumechika arachi','rumechika@ictec.ruh.ac.lk','Dep001'),
+('Lec_006','Naween walimuli','Devindanaween@gmail.com','Dep004'),
+('Lec_007','Chathuranga Athikari','chathuranga@fot.ruh.ac.lk','Dep004');
+
+ALTER TABLE Lecturer
+     ADD COLUMN Phone_no VARCHAR(11) AFTER Dep_id;
+
+ALTER TABLE Lecturer
+    ADD COLUMN Residence VARCHAR(20)AFTER Phone_no;
+
+
+UPDATE Lecturer
+     SET Phone_no='077-5667123'
+     WHERE Lec_id='Lec_001';
+
+UPDATE Lecturer
+    SET Residence='Matara'
+    WHERE Lec_id='Lec_001';
+
+UPDATE Lecturer
+    SET Phone_no='077-5667234'
+    WHERE Lec_id='Lec_002';
+UPDATE Lecturer
+    SET Residence='Kamburupitiya'
+    WHERE Lec_id='Lec_002';
+
+
+UPDATE Lecturer
+     SET Phone_no='071-7572944',Residence='Galle'
+     WHERE Lec_id='Lec_003';
+
+
+UPDATE Lecturer
+     SET Phone_no='071-7572988',Residence='Thangalla'
+     WHERE Lec_id='Lec_004';
+
+UPDATE Lecturer
+    SET Phone_no='071-7572877',Residence='Weligama'
+    WHERE Lec_id='Lec_005';
+
+UPDATE Lecturer
+     SET Phone_no='071-7572255',Residence='Mirissa'
+     WHERE Lec_id='Lec_006';
+
+UPDATE Lecturer
+    SET Phone_no='071-7571566',Residence='Ragama'
+    WHERE Lec_id='Lec_007';
+---------------------------------------------------------------------
+
+---------------------------------------------------------------------
+CREATE Lecturer_course TABLE
+---------------------------------------------------------------------
+CREATE TABLE Lecturer_course(
+	Lec_id CHAR(10),
+	Course_code CHAR(10),
+	FOREIGN KEY(Lec_id)REFERENCES Lecturer(Lec_id),
+	FOREIGN KEY(Course_code)REFERENCES Course_unit(Course_code));
+
+INSERT INTO Lecturer_course VALUES
+('Lec_001','ICT1242'),
+('Lec_002','ICT1253'),
+('Lec_003','ICT1212'),
+('Lec_003','ICT1222'),
+('Lec_004','TMS1233'),
+('Lec_005','ICT1233'),
+('Lec_006','ENG1222'),
+('Lec_007','TMS1212');
+
+ALTER TABLE Lecturer_course
+ADD PRIMARY KEY(Lec_id,Course_code);
+
+---------------------------------------------------------------------
+CREATE STUDENT TABLE
+---------------------------------------------------------------------
+CREATE TABLE Student(
+	Stu_id CHAR(10)NOT NULL,
+	Name VARCHAR(30),
+	Email VARCHAR(50),
+	Dep_id CHAR(6),
+	Enrollment_date DATE,  
+	Status VARCHAR(20),
+	PRIMARY KEY(Stu_id),
+	FOREIGN KEY(Dep_id)REFERENCES Department(Dep_id));
+
+INSERT INTO Student VALUES
+('Stu_22_01','Ishan Silva','ishan@gmail.com','Dep001','2022-06-02','Non_repeat'),
+('Stu_22_02','Shivin Jayawardena','shivin@gmail.com','Dep001','2022-06-02','Non_repeat'),
+('Stu_22_03','Sarath Bandara','sarath@gmail.com','Dep001','2022-06-02','Non_repeat'),
+('Stu_22_04','Isuri Rajapaksha','isuri7@gmail.com','Dep001','2022-06-02','Non_repeat'),
+('Stu_22_06','Jayani Wijesinghe','jayani@gmail.com','Dep001','2022-06-02','Non_repeat'),
+('Stu_22_07','Ishana Rathnayaka','ishana@gmail.com','Dep001','2022-06-02','Non_repeat'),
+('Stu_22_08','Aavish Karunarathne','aavish@gmail.com','Dep001','2022-06-02','Non_repeat'),
+('Stu_22_09','Tharindu Jayasuriya','tharindu@gmail.com','Dep001','2022-06-02','Non_repeat'),
+('Stu_22_10','Nimal Perera','nimal@gmail.com','Dep001','2022-06-02','Non_repeat'),
+('Stu_22_11','Anjali Silva','anjali@gmail.com','Dep001','2022-06-02','Non_repeat'),
+('Stu_21_22','Chanthura Bandara','chathura@gmail.com','Dep001','2021-06-02','Repeat'),
+('Stu_21_12','Pavithra jayasooriya','pavithra@gmail.com','Dep001','2021-06-02','Repeat'),
+('Stu_20_15','Sithra perera','sithra@gmail.com','Dep001','2021-06-02','Repeat'),
+('Stu_19_02','Nithmi wijesinghe','nithmi@gmail.com','Dep001','2021-06-02','Repeat'),
+('Stu_19_06','Hiruni bandara','hirunu@gmail.com','Dep001','2021-06-02','Repeat'),
+('Stu_18_07','Soduru mahinda','mahinda@gmail.com','Dep001','2019-09-23','Suspend');
+
+---------------------------------------------------------------------
+CREATE COURSE UNIT TABLE
+---------------------------------------------------------------------
+CREATE TABLE Course_unit(
+	Course_code CHAR(10)NOT NULL,
+	Course_name VARCHAR(40),
+	Dep_id CHAR(6),
+	Lec_id CHAR(10),
+	Type VARCHAR(20),
+	Credit INT,
+	PRIMARY KEY(Course_code),
+	FOREIGN KEY(Dep_id)REFERENCES Department(Dep_id),
+	FOREIGN KEY(Lec_id)REFERENCES Lecturer(Lec_id));
+5
+INSERT INTO Course_unit VALUES
+('ICT1212','Database management system ','Dep001','Lec_003','Theory',2),
+('ICT1222','Database management system practicum','Dep001','Lec_003','Practical',2),
+('ENG1222','English II','Dep004','Lec_006','Theory',2),
+('ICT1233','Server side web development','Dep001','Lec_006','Theory & Practical ',3),
+('ICT1242','Computer Architecture','Dep001','Lec_001','Theory',2),
+('ICT1253','Computer Network ','Dep001','Lec_002','Theory & Practical ',3),
+('TMS1233','Discrete Mathematics','Dep003','Lec_004','Theory',3),
+('TMS1212','Fundamental of Management','Dep004','Lec_007','Theory',2);
+
+SELECT CONSTRAINT_NAME
+     FROM information_schema.KEY_COLUMN_USAGE
+     WHERE TABLE_NAME = 'Course_unit'
+     AND COLUMN_NAME = 'Lec_id'
+     AND TABLE_SCHEMA = 'techmis';
+
+
+ALTER TABLE Course_unit
+     DROP FOREIGN KEY course_unit_ibfk_2;
+
+ ALTER TABLE Course_unit
+     DROP COLUMN Lec_id;
+---------------------------------------------------------------------
+
+---------------------------------------------------------------------
+CREATE STUDENT_COURSE TABLE
+---------------------------------------------------------------------
+CREATE TABLE Student_course(
+	Stu_id CHAR(10),
+	Course_code CHAR(10),
+	FOREIGN KEY(Stu_id)REFERENCES Student(Stu_id),
+	FOREIGN KEY(Course_code)REFERENCES Course_unit(Course_code));
+
+INSERT INTO Student_course
+VALUES
+('Stu_22_01','ICT1212'),
+('StU_22_01','ICT1222'),
+('Stu_22_01','ENG1222'),
+('Stu_22_01','ICT1233'),
+('Stu_22_01','ICT1242'),
+('Stu_22_01','ICT1253'),
+('Stu_22_01','TMS1212'),
+('Stu_22_01','TMS1233'),
+
+('Stu_22_02','ICT1212'),
+('StU_22_02','ICT1222'),
+('Stu_22_02','ENG1222'),
+('Stu_22_02','ICT1233'),
+('Stu_22_02','ICT1242'),
+('Stu_22_02','ICT1253'),
+('Stu_22_02','TMS1212'),
+('Stu_22_02','TMS1233'),
+
+('Stu_22_03','ICT1212'),
+('StU_22_03','ICT1222'),
+('Stu_22_03','ENG1222'),
+('Stu_22_03','ICT1233'),
+('Stu_22_03','ICT1242'),
+('Stu_22_03','ICT1253'),
+('Stu_22_03','TMS1212'),
+('Stu_22_03','TMS1233'),
+
+('Stu_22_04','ICT1212'),
+('StU_22_04','ICT1222'),
+('Stu_22_04','ENG1222'),
+('Stu_22_04','ICT1233'),
+('Stu_22_04','ICT1242'),
+('Stu_22_04','ICT1253'),
+('Stu_22_04','TMS1212'),
+('Stu_22_04','TMS1233'),
+
+('Stu_22_06','ICT1212'),
+('StU_22_06','ICT1222'),
+('Stu_22_06','ENG1222'),
+('Stu_22_06','ICT1233'),
+('Stu_22_06','ICT1242'),
+('Stu_22_06','ICT1253'),
+('Stu_22_06','TMS1212'),
+('Stu_22_06','TMS1233'),
+
+('Stu_22_07','ICT1212'),
+('StU_22_07','ICT1222'),
+('Stu_22_07','ENG1222'),
+('Stu_22_07','ICT1233'),
+('Stu_22_07','ICT1242'),
+('Stu_22_07','ICT1253'),
+('Stu_22_07','TMS1212'),
+('Stu_22_07','TMS1233'),
+
+('Stu_22_08','ICT1212'),
+('StU_22_08','ICT1222'),
+('Stu_22_08','ENG1222'),
+('Stu_22_08','ICT1233'),
+('Stu_22_08','ICT1242'),
+('Stu_22_08','ICT1253'),
+('Stu_22_08','TMS1212'),
+('Stu_22_08','TMS1233'),
+
+('Stu_22_09','ICT1212'),
+('StU_22_09','ICT1222'),
+('Stu_22_09','ENG1222'),
+('Stu_22_09','ICT1233'),
+('Stu_22_09','ICT1242'),
+('Stu_22_09','ICT1253'),
+('Stu_22_09','TMS1212'),
+('Stu_22_09','TMS1233'),
+
+('Stu_22_10','ICT1212'),
+('StU_22_10','ICT1222'),
+('Stu_22_10','ENG1222'),
+('Stu_22_10','ICT1233'),
+('Stu_22_10','ICT1242'),
+('Stu_22_10','ICT1253'),
+('Stu_22_10','TMS1212'),
+('Stu_22_10','TMS1233'),
+
+('Stu_22_11','ICT1212'),
+('StU_22_11','ICT1222'),
+('Stu_22_11','ENG1222'),
+('Stu_22_11','ICT1233'),
+('Stu_22_11','ICT1242'),
+('Stu_22_11','ICT1253'),
+('Stu_22_11','TMS1212'),
+('Stu_22_11','TMS1233'),
+
+('Stu_21_22','ICT1212'),
+('StU_21_22','ICT1222'),
+('Stu_21_22','ENG1222'),
+('Stu_21_22','ICT1233'),
+('Stu_21_22','ICT1242'),
+('Stu_21_22','ICT1253'),
+('Stu_21_22','TMS1212'),
+('Stu_21_22','TMS1233'),
+
+('Stu_21_12','ICT1212'),
+('StU_21_12','ICT1222'),
+('Stu_21_12','ENG1222'),
+('Stu_21_12','ICT1233'),
+('Stu_21_12','ICT1242'),
+('Stu_21_12','ICT1253'),
+('Stu_21_12','TMS1212'),
+('Stu_21_12','TMS1233'),
+
+('Stu_20_15','ICT1212'),
+('StU_20_15','ICT1222'),
+('Stu_20_15','ENG1222'),
+('Stu_20_15','ICT1233'),
+('Stu_20_15','ICT1242'),
+('Stu_20_15','ICT1253'),
+('Stu_20_15','TMS1212'),
+('Stu_20_15','TMS1233'),
+
+('Stu_19_02','ICT1212'),
+('StU_19_02','ICT1222'),
+('Stu_19_02','ENG1222'),
+('Stu_19_02','ICT1233'),
+('Stu_19_02','ICT1242'),
+('Stu_19_02','ICT1253'),
+('Stu_19_02','TMS1212'),
+('Stu_19_02','TMS1233'),
+
+('Stu_19_06','ICT1212'),
+('StU_19_06','ICT1222'),
+('Stu_19_06','ENG1222'),
+('Stu_19_06','ICT1233'),
+('Stu_19_06','ICT1242'),
+('Stu_19_06','ICT1253'),
+('Stu_19_06','TMS1212'),
+('Stu_19_06','TMS1233'),
+
+('Stu_18_07','ICT1212'),
+('StU_18_07','ICT1222'),
+('Stu_18_07','ENG1222'),
+('Stu_18_07','ICT1233'),
+('Stu_18_07','ICT1242'),
+('Stu_18_07','ICT1253'),
+('Stu_18_07','TMS1212'),
+('Stu_18_07','TMS1233');
+
+ALTER TABLE Student_course
+ADD PRIMARY KEY(Stu_id,Course_code);
+ 
+---------------------------------------------------------------------
+---------------------------------------------------------------------
+CREATE MARKS TABLE
+----------------------------------------------------------------------
+CREATE TABLE Marks(
+	Stu_id CHAR(10),
+	Course_code CHAR(10),
+	Quiz INT,
+	Assignment INT,
+	Theory_mid INT,
+	Practical_mid INT,
+	Theory_end INT,
+	Practical_end INT,
+	FOREIGN KEY(Stu_id)REFERENCES Student(Stu_id),
+	FOREIGN KEY(Course_code)REFERENCES Course_unit(Course_code));
+
+INSERT INTO Marks VALUES 
+('Stu_22_01', 'ICT1212', 7, 9, 24, 0, 0, 0),
+('Stu_22_01', 'ICT1222', 8, 9, 0, 25, 0, 37),
+('Stu_22_01', 'ENG1222', 5, 8, 24, 0, 47, 0),
+('Stu_22_01', 'ICT1233', 9, 7, 18, 8, 20, 21),
+('Stu_22_01', 'ICT1242', 7, 9, 25, 0, 34, 0),
+('Stu_22_01', 'ICT1253', 7, 6, 17, 9, 23, 21),
+('Stu_22_01', 'TMS1212', 9, 8, 26, 0, 27, 0),
+('Stu_22_01', 'TMS1233', 8, 8, 22, 0, 46, 0),
+
+('Stu_22_02', 'ICT1212', 5, 9, 26, 0, 25, 0),
+('Stu_22_02', 'ICT1222', 8, 7, 0, 27, 0, 35),
+('Stu_22_02', 'ENG1222', 9, 8, 25, 0, 34, 0),
+('Stu_22_02', 'ICT1233', 4, 7, 15, 7, 24, 21),
+('Stu_22_02', 'ICT1242', 5, 6, 24, 0, 36, 0),
+('Stu_22_02', 'ICT1253', 7, 7, 13, 8, 21, 23),
+('Stu_22_02', 'TMS1212', 9, 8, 22, 0, 26, 0),
+('Stu_22_02', 'TMS1233', 5, 9, 25, 0, 24, 0),
+
+('Stu_22_03', 'ICT1212', 4, 5, 23, 0, 0, 0),
+('Stu_22_03', 'ICT1222', 6, 6, 0, 20, 0, 34),
+('Stu_22_03', 'ENG1222', 8, 7, 24, 0, 34, 0),
+('Stu_22_03', 'ICT1233', 9, 8, 19, 9, 23, 21),
+('Stu_22_03', 'ICT1242', 5, 9, 22, 0, 37, 0),
+('Stu_22_03', 'ICT1253', 7, 7, 17, 8, 21, 23),
+('Stu_22_03', 'TMS1212', 8, 8, 12, 0, 37, 0),
+('Stu_22_03', 'TMS1233', 9, 6, 23, 0, 39, 0),
+
+('Stu_22_04', 'ICT1212', 6, 5, 5, 0, 0, 0),
+('Stu_22_04', 'ICT1222', 8, 6, 0, 28, 0, 24),
+('Stu_22_04', 'ENG1222', 7, 7, 2, 0, 0, 0),
+('Stu_22_04', 'ICT1233', 8, 8, 16, 7, 23, 21),
+('Stu_22_04', 'ICT1242', 5, 9, 22, 0, 45, 0),
+('Stu_22_04', 'ICT1253', 4, 9, 13, 8, 21, 23),
+('Stu_22_04', 'TMS1212', 7, 6, 25, 0, 42, 0),
+('Stu_22_04', 'TMS1233', 8, 7, 22, 0, 46, 0),
+
+('Stu_22_06', 'ICT1212', 5, 8, 23, 0, 47, 0),
+('Stu_22_06', 'ICT1222', 6, 9, 0, 8, 0, 0),
+('Stu_22_06', 'ENG1222', 7, 8, 24, 0, 34, 0),
+('Stu_22_06', 'ICT1233', 8, 8, 16, 8, 23, 23),
+('Stu_22_06', 'ICT1242', 9, 9, 5, 0, 0, 0),
+('Stu_22_06', 'ICT1253', 4, 6, 17, 9, 23, 21),
+('Stu_22_06', 'TMS1212', 9, 7, 15, 0, 45, 0),
+('Stu_22_06', 'TMS1233', 6, 5, 19, 0, 23, 0),
+
+('Stu_22_07', 'ICT1212', 4, 7, 5, 0, 0, 0),
+('Stu_22_07', 'ICT1222', 5, 8, 0, 24, 0, 31),
+('Stu_22_07', 'ENG1222', 6, 7, 23, 0, 34, 0),
+('Stu_22_07', 'ICT1233', 7, 8, 15, 8, 23, 21),
+('Stu_22_07', 'ICT1242', 8, 9, 12, 0, 13, 0),
+('Stu_22_07', 'ICT1253', 8, 7, 12, 8, 23, 21),
+('Stu_22_07', 'TMS1212', 9, 8, 15, 0, 23, 0),
+('Stu_22_07', 'TMS1233', 6, 7, 19, 0, 43, 0),
+
+('Stu_22_08', 'ICT1212', 5, 9, 23, 0, 21, 0),
+('Stu_22_08', 'ICT1222', 4, 7, 0, 27, 0, 23),
+('Stu_22_08', 'ENG1222', 6, 8, 12, 0, 16, 0),
+('Stu_22_08', 'ICT1233', 7, 9, 14, 7, 21, 21),
+('Stu_22_08', 'ICT1242', 8, 6, 14, 0, 45, 0),
+('Stu_22_08', 'ICT1253', 9, 8, 12, 9, 23, 21),
+('Stu_22_08', 'TMS1212', 7, 8, 15, 0, 27, 0),
+('Stu_22_08', 'TMS1233', 8, 9, 16, 0, 16, 0),
+
+('Stu_22_09', 'ICT1212', 6, 9, 16, 0, 17, 0),
+('Stu_22_09', 'ICT1222', 7, 7, 0, 24, 0, 31),
+('Stu_22_09', 'ENG1222', 8, 8, 12, 0, 15, 0),
+('Stu_22_09', 'ICT1233', 6, 9, 12, 7, 18, 19),
+('Stu_22_09', 'ICT1242', 5, 8, 14, 0, 17, 0),
+('Stu_22_09', 'ICT1253', 4, 7, 13, 9, 21, 16),
+('Stu_22_09', 'TMS1212', 3, 8, 15, 0, 45, 0),
+('Stu_22_09', 'TMS1233', 5, 9, 15, 0, 36, 0),
+
+('Stu_22_10', 'ICT1212', 5, 9, 23, 0, 34, 0),
+('Stu_22_10', 'ICT1222', 6, 7, 0, 23, 0, 35),
+('Stu_22_10', 'ENG1222', 8, 8, 14, 0, 27, 0),
+('Stu_22_10', 'ICT1233', 9, 9, 12, 6, 21, 21),
+('Stu_22_10', 'ICT1242', 3, 6, 16, 0, 20, 0),
+('Stu_22_10', 'ICT1253', 7, 8, 13, 7, 19, 17),
+('Stu_22_10', 'TMS1212', 5, 8, 17, 0, 34, 0),
+('Stu_22_10', 'TMS1233', 8, 9, 18, 0, 31, 0),
+
+('Stu_22_11', 'ICT1212', 9, 8, 26, 0, 38, 0),
+('Stu_22_11', 'ICT1222', 3, 9, 0, 22, 0, 43),
+('Stu_22_11', 'ENG1222', 5, 6, 24, 0, 44, 0),
+('Stu_22_11', 'ICT1233', 6, 7, 16, 7, 21, 20),
+('Stu_22_11', 'ICT1242', 7, 7, 22, 0, 45, 0),
+('Stu_22_11', 'ICT1253', 8, 8, 15, 6, 21, 22),
+('Stu_22_11', 'TMS1212', 6, 9, 24, 0, 42, 0),
+('Stu_22_11', 'TMS1233', 9, 7, 23, 0, 45, 0),
+
+('Stu_21_22', 'ICT1212', 5, 8, 21, 0, 45, 0),
+('Stu_21_22', 'ICT1222', 6, 5, 0, 24, 0, 32),
+('Stu_21_22', 'ENG1222', 7, 6, 23, 0, 34, 0),
+('Stu_21_22', 'ICT1233', 8, 6, 15, 6, 23, 21),
+('Stu_21_22', 'ICT1242', 5, 7, 24, 0, 12, 0),
+('Stu_21_22', 'ICT1253', 6, 8, 14, 7, 21, 21),
+('Stu_21_22', 'TMS1212', 7, 6, 21, 0, 48, 0),
+('Stu_21_22', 'TMS1233', 8, 7, 22, 0, 34, 0),
+
+('Stu_21_12', 'ICT1212', 6, 5, 23, 0, 34, 0),
+('Stu_21_12', 'ICT1222', 7, 6, 0, 24, 0, 32),
+('Stu_21_12', 'ENG1222', 8, 7, 22, 0, 23, 0),
+('Stu_21_12', 'ICT1233', 9, 8, 12, 8, 23, 21),
+('Stu_21_12', 'ICT1242', 4, 9, 23, 0, 34, 0),
+('Stu_21_12', 'ICT1253', 6, 5, 14, 7, 21, 21),
+('Stu_21_12', 'TMS1212', 8, 6, 27, 0, 12, 0),
+('Stu_21_12', 'TMS1233', 9, 8, 22, 0, 15, 0),
+
+('Stu_20_15', 'ICT1212', 5, 7, 23, 0, 23, 0),
+('Stu_20_15', 'ICT1222', 6, 4, 0, 23, 0, 23),
+('Stu_20_15', 'ENG1222', 7, 6, 21, 0, 34, 0),
+('Stu_20_15', 'ICT1233', 8, 8, 14, 6, 23, 21),
+('Stu_20_15', 'ICT1242', 9, 9, 23, 0, 34, 0),
+('Stu_20_15', 'ICT1253', 7, 3, 14, 7, 21, 23),
+('Stu_20_15', 'TMS1212', 8, 8, 25, 0, 27, 0),
+('Stu_20_15', 'TMS1233', 9, 9, 26, 0, 36, 0),
+
+('Stu_19_02', 'ICT1212', 4, 8, 25, 0, 34, 0),
+('Stu_19_02', 'ICT1222', 5, 4, 0, 25, 0, 36),
+('Stu_19_02', 'ENG1222', 6, 6, 23, 0, 38, 0),
+('Stu_19_02', 'ICT1233', 9, 7, 15, 7, 23, 21),
+('Stu_19_02', 'ICT1242', 6, 7, 24, 0, 45, 0),
+('Stu_19_02', 'ICT1253', 8, 8, 13, 8, 23, 21),
+('Stu_19_02', 'TMS1212', 9, 9, 26, 0, 42, 0),
+('Stu_19_02', 'TMS1233', 4, 4, 21, 0, 32, 0),
+
+('Stu_19_06', 'ICT1212', 5, 8, 24, 0, 34, 0),
+('Stu_19_06', 'ICT1222', 5, 6, 0, 17, 0, 27),
+('Stu_19_06', 'ENG1222', 8, 8, 23, 0, 31, 0),
+('Stu_19_06', 'ICT1233', 7, 5, 16, 9, 17, 21),
+('Stu_19_06', 'ICT1242', 9, 9, 21, 0, 34, 0),
+('Stu_19_06', 'ICT1253', 4, 6, 14, 7, 19, 18),
+('Stu_19_06', 'TMS1212', 6, 5, 23, 0, 34, 0),
+('Stu_19_06', 'TMS1233', 7, 4, 25, 0, 45, 0),
+
+('Stu_18_07', 'ICT1212', 0, 0, 0, 0, 0, 0),
+('Stu_18_07', 'ICT1222', 0, 0, 0, 0, 0, 0),
+('Stu_18_07', 'ENG1222', 0, 0, 0, 0, 0, 0),
+('Stu_18_07', 'ICT1233', 0, 0, 0, 0, 0, 0),
+('Stu_18_07', 'ICT1242', 0, 0, 0, 0, 0, 0),
+('Stu_18_07', 'ICT1253', 0, 0, 0, 0, 0, 0),
+('Stu_18_07', 'TMS1212', 0, 0, 0, 0, 0, 0),
+('Stu_18_07', 'TMS1233', 0, 0, 0, 0, 0, 0);
+
+
+ALTER TABLE Marks
+ADD PRIMARY KEY(Stu_id,Course_code);
+
+-----------------------------------------------------------------------
+----------------------------------------------------------------------
+CREATE TECHNICAL OFFICER TABLE
+----------------------------------------------------------------------
+CREATE TABLE T_O(
+	Tec_id CHAR(10)NOT NULL,
+	Dep_id CHAR(6),
+	Name VARCHAR(30),
+	FOREIGN KEY(Dep_id)REFERENCES Department(Dep_id));
+	
+INSERT INTO T_O VALUES
+('Tec_006','Dep001','John Smith'),
+('Tec_007','Dep001','Michael Johnson'),
+('Tec_008','Dep001','Jane Doe'),
+('Tec_009','Dep004','Sarah Wilson'),
+('Tec_010','Dep004','Robert Anderson');
+
+
+ALTER TABLE T_O
+ADD PRIMARY KEY(Tec_id,Dep_id);
+
+ALTER TABLE T_O
+    ADD COLUMN Phone_no VARCHAR(11) AFTER Name,
+    ADD COLUMN Residence VARCHAR(20) AFTER Phone_no;
+
+ UPDATE T_O
+     SET Phone_no='071-4054453',Residence='Kamburupitiya'
+     WHERE Tec_id='Tec_006';
+
+UPDATE T_O
+     SET Phone_no='071-9597617',Residence='Weligama'
+     WHERE Tec_id='Tec_007';
+
+UPDATE T_O
+     SET Phone_no='071-4054455',Residence='Thihagoda'
+     WHERE Tec_id='Tec_008';
+
+
+UPDATE T_O
+     SET Phone_no='071-9597620',Residence='Mirissa'
+     WHERE Tec_id='Tec_009';
+
+UPDATE T_O
+     SET Phone_no='071-4054778',Residence='Akuressa'
+     WHERE Tec_id='Tec_010';
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+CREATE DEAN TABLE
+---------------------------------------------------------------------	
+CREATE TABLE Dean(
+	Dean_id CHAR(10)NOT NULL,
+	Name VARCHAR(30),
+	Email VARCHAR(50),
+	PRIMARY KEY(Dean_id));
+
+INSERT INTO Dean VALUES('De001','Subash Jayasigha','Subash@tec.ruh.ac.lk');
+
+ALTER TABLE Dean
+     ADD COLUMN Residence VARCHAR(20) AFTER Email,
+     ADD COLUMN Phone_no VARCHAR(11) AFTER Residence;
+
+
+UPDATE Dean
+    SET Phone_no='071-9597615',Residence='Galle';
+---------------------------------------------------------------------
+
+---------------------------------------------------------------------
+CREATE ADMIN TABLE
+---------------------------------------------------------------------
+CREATE TABLE Admin(
+	Admin_id CHAR(10),
+	Name VARCHAR(30),
+	Email VARCHAR(50),
+	PRIMARY KEY(Admin_id));
+				
+INSERT INTO Admin VALUES('Ad002','Sagini Senavirathna','Sagini@tec.ruh.ac.lk');	
+
+ALTER TABLE Admin
+     ADD COLUMN Phone_no VARCHAR(11) AFTER Email,
+     ADD COLUMN Residence VARCHAR(20) AFTER Phone_no;
+
+UPDATE Admin
+     SET Phone_no='071-3381842', Residence='Matara';
+-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+CREATE ATTENDANCE TABLE
+-----------------------------------------------------------------------------------
+CREATE TABLE Attendance(
+	Stu_id CHAR(10),
+	Course_code CHAR(10),
+	Date DATE,
+	Type VARCHAR(20),
+	Sub_status VARCHAR(12),
+	FOREIGN KEY(Stu_id) REFERENCES Student(Stu_id),
+	FOREIGN KEY(Course_code) REFERENCES Course_unit(Course_code));
+
+ALTER TABLE Attendance
+ADD PRIMARY KEY(Stu_id,Course_code,Date,Sub_status);
+---------------------------------------------------------------------
+---------------------------------------------------------------------
+CREATE MEDICAL TABLE
+---------------------------------------------------------------------
+CREATE TABLE Medical(
+	Medi_no CHAR(6)NOT NULL,
+	Course_code CHAR(10),
+	Stu_id CHAR(10),
+	Submit_date DATE,
+	M_status VARCHAR(20),
+	PRIMARY KEY(Medi_no),
+	FOREIGN KEY(Stu_id) REFERENCES Student(Stu_id),
+	FOREIGN KEY(Course_code) REFERENCES Course_unit(Course_code));
+
+INSERT INTO Medical values
+('M001','ICT1212','Stu_22_01','2024-08-13','APPROVED'),
+('M002','ICT1212','stu_22_01','2024-08-20','PENDING'),
+('M003','ICT1212','stu_22_01','2024-08-27','PENDING'),
+('M004','ICT1212','stu_22_01','2024-09-01','PENDING'),
+('M005','ENG1222','stu_22_02','2024-08-02','APPROVED'),
+('M006','ENG1222','stu_22_02','2024-08-09','APPROVED'),
+('M007','ENG1222','stu_22_02','2024-09-16','APPROVED'),
+('M008','ENG1222','stu_22_02','2024-09-23','APPROVED'),
+('M009','ICT1212','stu_22_03','2024-11-12','APPROVED');
+
+
+ALTER TABLE MEDICAL  ADD COLUMN  Reason VARCHAR (20);
+
+UPDATE MEDICAL
+    	SET REASON ='LECTURE'
+    	WHERE MEDI_NO BETWEEN 'M001' AND 'M008';
+
+UPDATE MEDICAL
+    	 SET REASON='EXAM'
+    	 WHERE MEDI_NO='M009';
+
+----------------------------------------------------------------------
+============================================================================
+CREATE VIEW FOR GET ATTENDANCE COUNT
+============================================================================
+
+CREATE VIEW Attendance_count AS
+SELECT
+    attendance.Stu_id,
+    attendance.Course_code,
+    attendance.sub_status,
+    COUNT(IF(attendance.type = 'present', 1, NULL)) AS Present_Count
+FROM
+    attendance
+JOIN
+    student ON attendance.Stu_id = student.Stu_id
+WHERE
+    student.status = 'non_repeat'
+GROUP BY
+    attendance.Stu_id,
+    attendance.Course_code,
+    attendance.sub_status;
+
+
+============================================================================
+CREATE VIEW FOR GET ATTENDANCE PERCENTAGE
+============================================================================
+
+CREATE VIEW Attendance_percentage AS
+SELECT
+    Stu_id,
+    Course_code,
+    sub_status,
+    Present_Count,
+    (Present_Count / 15) * 100 AS Attendance_Percentage
+FROM
+    Attendance_count;
+
+========================================================================================================
+CREATE VIEW FOR GET ATTENDANCE ELIGIBILITY
+============================================================================
+
+CREATE VIEW Eligibility AS
+SELECT
+    Stu_id,
+    Course_code,
+    sub_status,
+    Attendance_Percentage,
+    IF(Attendance_Percentage > 80.0000, 'eligible', 'not eligible') AS Eligibility_Status
+FROM
+    Attendance_percentage;
+============================================================================================================
+CREATE VIEW FOR GET TOTAL CA MARKS
+============================================================================================================
+
+CREATE VIEW CA_marks AS
+SELECT
+	stu_id,
+	course_code,
+	Quiz,
+	Assignment,
+	theory_mid,
+	practical_mid,
+		SUM(quiz+assignment+theory_mid+practical_mid)AS total_CA_marks
+	FROM marks
+	GROUP BY stu_id,course_code;
+
+=============================================================================================================
+CREATE VIEW FOR GET CA MARKS PERCENTAGE
+=============================================================================================================
+
+CREATE VIEW CA_marks_percentage AS
+SELECT
+	stu_id,
+	course_code,
+	Quiz,
+	Assignment,
+	theory_mid,
+	practical_mid,
+	total_CA_marks,
+		(total_ca_marks*2) AS CA_marks_percentage
+	FROM CA_marks
+	GROUP BY stu_id,course_code;
+
+============================================================================================================
+CREATE VIEW FOR GET CA ELIGIBILITY
+============================================================================================================
+
+CREATE VIEW Eligibility_CA AS
+SELECT
+	stu_id,
+	course_code,
+	total_CA_marks,
+	CA_marks_percentage,
+		IF(CA_marks_percentage>50,'Eligible','Not eligible')AS CA_Eligibility
+	FROM   CA_marks_percentage
+	GROUP BY stu_id,course_code;
+
+============================================================================================================
+CREATE VIEW FOR GET ELIGIBILITY FOR FINAL EXAM
+============================================================================================================
+
+CREATE VIEW Final_Eligibility AS
+SELECT
+    e.Stu_id,
+    e.Course_code,
+    e.Eligibility_Status,
+    ca.CA_Eligibility,
+    CASE
+        WHEN e.Eligibility_Status = 'eligible' AND ca.CA_Eligibility = 'Eligible' THEN 'Eligible for Final Exam'
+        ELSE 'Not Eligible for Final Exam'
+    END AS Final_Exam_Eligibility
+FROM
+    Eligibility e
+JOIN
+    Eligibility_CA ca ON e.Stu_id = ca.stu_id AND e.Course_code = ca.course_code;
+
+
+============================================================================================================
+CREATE VIEW FOR GET FINAL MARKS
+============================================================================================================
+
+CREATE VIEW Final_marks AS
+     SELECT
+     Stu_id,course_code,((SUM(theory_end+practical_end))*2) AS FINAL_MARK
+     FROM marks
+	GROUP BY stu_id,course_code;
+
+============================================================================================================
+CREATE VIEW FOR GET TOTAL MID MARKS
+============================================================================================================
+
+CREATE VIEW mid_marks AS
+     SELECT
+     stu_id,course_code,(SUM(theory_mid+practical_mid))AS mid_mark
+     FROM marks
+     GROUP BY stu_id,course_code;
+
+============================================================================
+CREATE VIEW FOR GET TOTAL QUIZ + ASSIGNMENT MARKS
+============================================================================
+
+CREATE VIEW final_quiz_marks AS
+     SELECT
+     stu_id,course_code,(SUM(quiz+assignment))AS quiz_assignment_mark
+     FROM marks
+     GROUP BY stu_id,course_code;
+
+===========================================================================
+CREATE VIEW FOR DISPLAY ALL MARKS
+===========================================================================
+
+CREATE VIEW display_marks AS
+SELECT
+    final_marks.stu_id,
+    final_marks.course_code,
+    final_quiz_marks.quiz_assignment_mark,
+    mid_marks.mid_mark,
+    ca_marks.total_ca_marks,
+    final_marks.final_mark
+FROM
+    final_marks, final_quiz_marks, mid_marks, ca_marks
+WHERE
+    final_marks.stu_id = final_quiz_marks.stu_id
+    AND final_marks.course_code = final_quiz_marks.course_code
+    AND final_marks.stu_id = mid_marks.stu_id
+    AND final_marks.course_code = mid_marks.course_code
+    AND final_marks.stu_id = ca_marks.stu_id
+    AND final_marks.course_code = ca_marks.course_code
+GROUP BY
+    final_marks.stu_id, final_marks.course_code;
+============================================================================
+CREATE VIEW FOR GET GRADE POINT FOR GPA CALCULATION
+============================================================================
+
+CREATE VIEW Grade_Points AS
+SELECT
+    FINAL_MARKS.Stu_id,
+    FINAL_MARKS.course_code,
+    FINAL_MARK,
+    STUDENT.Status,
+    IF(Status = 'repeat', 2.0,
+        IF(FINAL_MARK >= 90, 4.0,
+        IF(FINAL_MARK >= 84, 4.0,
+        IF(FINAL_MARK >= 75, 3.7,
+        IF(FINAL_MARK >= 70, 3.3,
+        IF(FINAL_MARK >= 65, 3.0,
+        IF(FINAL_MARK >= 60, 2.7,
+        IF(FINAL_MARK >= 55, 2.3,
+        IF(FINAL_MARK >= 50, 2.0,
+        IF(FINAL_MARK >= 45, 1.7,
+        IF(FINAL_MARK >= 40, 1.3,
+        IF(FINAL_MARK >= 35, 1.0, 0.0)))))))))))) AS Grade_Point
+FROM
+    Final_marks,student
+WHERE
+     Final_marks.Stu_id = Student.Stu_id;
+
+============================================================================================
+CREATE VIEW FOR CALCULATE SGPA
+============================================================================================
+
+CREATE VIEW SGPA AS
+SELECT
+    grade_points.stu_id,
+    (SUM(grade_points.grade_point * course_unit.credit) / SUM(course_unit.credit)) AS SGPA
+FROM
+    grade_points,student_course,course_unit
+where
+    grade_points.course_code = student_course.course_code
+	AND
+    student_course.course_code = course_unit.course_code
+GROUP BY
+    grade_points.stu_id;
+
+
+==============================================================================================
+CREATE VIEW FOR CALCULATE CGPA
+==============================================================================================
+
+CREATE VIEW CGPA AS
+SELECT
+    grade_points.stu_id,
+    (SUM(grade_points.grade_point * course_unit.credit) / SUM(course_unit.credit)) AS CGPA
+FROM
+    grade_points,student_course,course_unit
+where
+    grade_points.course_code = student_course.course_code
+	AND
+    student_course.course_code = course_unit.course_code AND course_unit.course_code!='ENG1222' 
+GROUP BY
+    grade_points.stu_id;
+
+==============================================================================================
+
+============================================================================================================
+ATTENDANCE WITH PERCENTAGE AND ELIGIBILITY BY GIVING REGISTRATION NUMBER
+============================================================================================================
+DELIMITER //
+
+CREATE PROCEDURE GetStudentAttendance(IN reg_no CHAR(10))
+BEGIN
+    SELECT
+        Student.Stu_id,
+        Student.Name,
+        Student.Email,
+        Attendance_percentage.Course_code,
+        Attendance_percentage.Attendance_Percentage,
+        CASE
+            WHEN Attendance_percentage.Attendance_Percentage > 80.0000 THEN 'Eligible'
+            ELSE 'Not Eligible'
+        END AS Attendance_Eligibility
+    FROM
+        Student
+    JOIN
+        Attendance_percentage ON Student.Stu_id = Attendance_percentage.Stu_id
+    WHERE
+        Student.Stu_id = reg_no;
+END //
+
+DELIMITER ;
+
+call GetStudentAttendance('stu_22_01');
+
+=======================================================================================================
+BY GIVING REGISTRATION NUMBER AND COURSE CODE
+=======================================================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE StudentAttendance(IN reg_no CHAR(10), IN course_code CHAR(10))
+BEGIN
+    SELECT
+        Student.Stu_id,
+        Student.Name,
+        Student.Email,
+        Attendance_percentage.Course_code,
+        Attendance_percentage.Attendance_Percentage,
+        CASE
+            WHEN Attendance_percentage.Attendance_Percentage > 80.0000 THEN 'Eligible'
+            ELSE 'Not Eligible'
+        END AS Attendance_Eligibility
+    FROM
+        Student
+    JOIN
+        Attendance_percentage ON Student.Stu_id = Attendance_percentage.Stu_id
+    WHERE
+        Student.Stu_id = reg_no
+        AND Attendance_percentage.Course_code = course_code;
+END //
+
+DELIMITER ;
+
+CALL StudentAttendance('stu_22_01', 'ENG1222');
+==============================================================================================================
+
+
+
+***** DROP PROCEDURE IF EXISTS GetTheoryAttendance; ************
+
+
+
+===================================================================================================================
+GET ELIGIBILITY FOR THEORY BY GIVING STUDENT NO AND COURSE CODE
+===================================================================================================================
+
+
+DELIMITER //
+
+CREATE PROCEDURE GetTheoryAttendance(IN reg_no CHAR(10), IN course_code CHAR(10))
+BEGIN
+    SELECT
+        Student.Stu_id,
+        Student.Name,
+        Attendance_count.Course_code,
+        Attendance_count.sub_status,
+        Attendance_count.Present_Count,
+        (Attendance_count.Present_Count / 15) * 100 AS Attendance_Percentage,
+        CASE
+            WHEN (Attendance_count.Present_Count / 15) * 100 > 80.0000 THEN 'Eligible'
+            ELSE 'Not Eligible'
+        END AS Attendance_Eligibility
+    FROM
+        Student
+    JOIN
+        Attendance_count ON Student.Stu_id = Attendance_count.Stu_id
+    WHERE
+        Student.Stu_id = reg_no
+        AND Attendance_count.Course_code = course_code
+        AND Attendance_count.sub_status = 'Theory';
+END //
+
+DELIMITER ;
+
+CALL GetTheoryAttendance('stu_22_01', 'ICT1212');
+
+=============================================================================================
+GET PRACTICAL ELIGIBILITY BY GIVING STUDENT NO AND COURSE CODE
+=============================================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE GetPracticalAttendance(IN reg_no CHAR(10), IN course_code CHAR(10))
+BEGIN
+    SELECT
+        Student.Stu_id,
+        Student.Name,
+        Attendance_count.Course_code,
+        Attendance_count.sub_status,
+        Attendance_count.Present_Count,
+        (Attendance_count.Present_Count / 15) * 100 AS Attendance_Percentage,
+        CASE
+            WHEN (Attendance_count.Present_Count / 15) * 100 > 80.0000 THEN 'Eligible'
+            ELSE 'Not Eligible'
+        END AS Attendance_Eligibility
+    FROM
+        Student
+    JOIN
+        Attendance_count ON Student.Stu_id = Attendance_count.Stu_id
+    WHERE
+        Student.Stu_id = reg_no
+        AND Attendance_count.Course_code = course_code
+        AND Attendance_count.sub_status = 'practical';
+END //
+
+DELIMITER ;
+
+CALL GetPracticalAttendance('stu_22_01', 'ICT1222');
+
+====================================================================================================================
+CREATE PROCEDURE FOR CA MARKS BY GIVING COURSE CODE FOR WHOLE BATCH
+====================================================================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE GetCAMarksSummary(IN course_code CHAR(10))
+BEGIN
+    SELECT
+        CA_marks.stu_id,
+        CA_marks.course_code,
+        CA_marks.total_CA_marks,
+        CA_marks_percentage.CA_marks_percentage
+       
+    FROM
+        CA_marks
+    JOIN
+        CA_marks_percentage ON CA_marks.stu_id = CA_marks_percentage.stu_id
+        AND CA_marks.course_code = CA_marks_percentage.course_code
+    WHERE
+        CA_marks.course_code = course_code
+    GROUP BY
+        CA_marks.stu_id, CA_marks.course_code;
+END //
+
+DELIMITER ;
+
+CALL GetCAMarksSummary('ICT1222');
+
+==================================================================================================================
+CREATE PROCEDURE FOR CA MARKS FOR INDVIDUAL BY GIVING STUDENT NO AND COURSE CODE
+==================================================================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE GetindividualCA (IN Course_code CHAR(10),IN Stu_id CHAR(10))
+BEGIN
+	SELECT
+		CA_marks.stu_id,
+        	CA_marks.course_code,
+        	CA_marks.total_CA_marks,
+        	CA_marks_percentage.CA_marks_percentage
+	FROM
+		CA_marks,CA_marks_percentage
+	WHERE
+		CA_marks.stu_id = CA_marks_percentage.stu_id
+        	AND CA_marks.course_code = CA_marks_percentage.course_code
+		AND (CA_marks.course_code = course_code
+        		AND CA_marks.stu_id = stu_id)
+	GROUP BY 	
+       		CA_marks.stu_id, CA_marks.course_code;
+END //
+
+DELIMITER ;
+
+CALL GetindividualCA('ICT1212','stu_22_01');
+
+=================================================================================================================
+CREATE PROCEDURE FOR CA MARKS BY GIVING REGISTRATION NO FOR WHOLE BATCH
+=================================================================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE GetCAsummary(IN Stu_id CHAR(10))
+BEGIN
+	SELECT
+		CA_marks.stu_id,
+        	CA_marks.course_code,
+        	CA_marks.total_CA_marks,
+        	CA_marks_percentage.CA_marks_percentage
+	FROM
+		CA_marks,CA_marks_percentage
+	WHERE
+		CA_marks.stu_id = CA_marks_percentage.stu_id
+        	AND CA_marks.course_code = CA_marks_percentage.course_code
+		AND ( CA_marks.stu_id = stu_id)
+	GROUP BY 	
+       		CA_marks.stu_id, CA_marks.course_code;
+END //
+
+DELIMITER ;
+
+CALL GetCAsummary('stu_22_01');
+
+================================================================================================================
+CREATE PROCEDURE FOR FINAL MARKS FOR INDIVIDUAL BY GIVING REGISTRATON NO
+================================================================================================================
+DELIMITER //
+
+CREATE PROCEDURE Getfinalsummary(IN Stu_id CHAR(10))
+BEGIN
+	SELECT
+		final_marks.stu_id,
+        	final_marks.course_code,
+        	final_marks.final_mark
+	FROM
+		final_marks
+	WHERE
+		final_marks.stu_id=stu_id
+	GROUP BY 	
+       		final_marks.stu_id, final_marks.course_code;
+END //
+
+DELIMITER ;
+
+CALL Getfinalsummary('stu_22_03');
+
+=================================================================================================================
+CREATE PROCEDURE FOR FINAL MARKS BY GIVING COURSE CODE FOR WHOLE BATCH 
+=================================================================================================================
+DELIMITER //
+
+CREATE PROCEDURE Getfinalmarkswhole(IN course_code CHAR(10))
+BEGIN
+    SELECT
+        final_marks.stu_id,
+        final_marks.course_code,
+        final_marks.final_mark
+       
+    FROM
+        final_marks
+    
+    WHERE
+        final_marks.course_code = course_code
+    GROUP BY
+        final_marks.stu_id, final_marks.course_code;
+END //
+
+DELIMITER ;
+
+CALL  Getfinalmarkswhole('ICT1222');
+
+===================================================================================================================
+CHECK ELIGIBILITY FOR CA +ATTENDANCE FOR INDIVIDUAL GIVING STU_ID & COURSE CODE
+===================================================================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE GetFinalEligibility(IN reg_no CHAR(10), IN course_code CHAR(10))
+BEGIN
+    SELECT
+        FINAL_eligibility.stu_id,
+        FINAL_eligibility.course_code,
+        FINAL_eligibility.CA_Eligibility,
+        FINAL_eligibility.Eligibility_Status,
+        FINAL_eligibility.Final_Exam_eligibility
+    FROM
+        FINAL_eligibility
+    WHERE
+        FINAL_eligibility.stu_id = reg_no
+        AND FINAL_eligibility.course_code = course_code;
+END //
+
+DELIMITER ;
+
+CALL GetFINALEligibility('STU_22_04', 'ICT1212');
+
+============================================================================================================================
+CREATE PROCEDURES GET FINAL ELIGIBILITY FOR INDIVIDUALS BY GIVING STUDENT NUMBER
+============================================================================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE GetFinalEligibilityALL(IN reg_no CHAR(10))
+BEGIN
+    SELECT
+        FINAL_eligibility.stu_id,
+        FINAL_eligibility.course_code,
+        FINAL_eligibility.CA_Eligibility,
+        FINAL_eligibility.Eligibility_Status,
+        FINAL_eligibility.Final_Exam_eligibility
+    FROM
+        FINAL_eligibility
+    WHERE
+        FINAL_eligibility.stu_id = reg_no;
+        
+END //
+
+DELIMITER ;
+
+CALL GetFINALEligibilityALL('STU_22_04');
+
+============================================================================================================================
+CREATE PROCEDURE FOR DISPLAY ALL MARKS FOR INDIVIDUAL
+============================================================================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE getallmarksindividual(IN reg_no CHAR(10))
+BEGIN
+	SELECT
+		display_marks.stu_id,
+		display_marks.course_code,
+		display_marks.quiz_assignment_mark,
+		display_marks.mid_mark,
+		display_marks.total_ca_marks,
+		display_marks.final_mark
+	FROM display_marks
+	WHERE display_marks.stu_id=reg_no;
+END //
+
+DELIMITER ;
+
+CALL getallmarksindividual('stu_22_01');
+	
+==============================================================================================================================
+GET FINAL GRADE BY GIVING COURSE CODE
+==============================================================================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE GetStudentGrades(IN course_code CHAR(10))
+BEGIN
+    SELECT
+        Final_marks.Stu_id,
+        Final_marks.course_code,
+        Final_marks.FINAL_MARK,
+        Student.Status,
+        IF(Student.Status = 'repeat', 'C',
+            IF(Final_marks.FINAL_MARK >= 90, 'A+',
+            IF(Final_marks.FINAL_MARK >= 84, 'A',
+            IF(Final_marks.FINAL_MARK >= 75, 'A-',
+            IF(Final_marks.FINAL_MARK >= 70, 'B+',
+            IF(Final_marks.FINAL_MARK >= 65, 'B',
+            IF(Final_marks.FINAL_MARK >= 60, 'B-',
+            IF(Final_marks.FINAL_MARK >= 55, 'C+',
+            IF(Final_marks.FINAL_MARK >= 50, 'C',
+            IF(Final_marks.FINAL_MARK >= 45, 'C-',
+            IF(Final_marks.FINAL_MARK >= 40, 'D+',
+            IF(Final_marks.FINAL_MARK >= 35, 'D', 'F')))))))))))) AS Grade
+    FROM
+        Final_marks,student
+         
+    WHERE
+	Final_marks.Stu_id = Student.Stu_id AND
+        ( Final_marks.course_code = course_code);
+END //
+
+DELIMITER ;
+
+CALL GetStudentGrades('ICT1212');
+
+==============================================================================================================================
+GET FINAL GRADE BY GIVING COURSE CODE
+==============================================================================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE GetStudentGradesINDIVIDUAL(IN reg_no CHAR(10),IN course_code CHAR(10))
+BEGIN
+    SELECT
+        Final_marks.Stu_id,
+        Final_marks.course_code,
+        Final_marks.FINAL_MARK,
+        Student.Status,
+        IF(Student.Status = 'repeat', 'C',
+            IF(Final_marks.FINAL_MARK >= 90, 'A+',
+            IF(Final_marks.FINAL_MARK >= 84, 'A',
+            IF(Final_marks.FINAL_MARK >= 75, 'A-',
+            IF(Final_marks.FINAL_MARK >= 70, 'B+',
+            IF(Final_marks.FINAL_MARK >= 65, 'B',
+            IF(Final_marks.FINAL_MARK >= 60, 'B-',
+            IF(Final_marks.FINAL_MARK >= 55, 'C+',
+            IF(Final_marks.FINAL_MARK >= 50, 'C',
+            IF(Final_marks.FINAL_MARK >= 45, 'C-',
+            IF(Final_marks.FINAL_MARK >= 40, 'D+',
+            IF(Final_marks.FINAL_MARK >= 35, 'D', 'F')))))))))))) AS Grade
+    FROM
+        Final_marks,student
+         
+    WHERE
+	Final_marks.Stu_id = Student.Stu_id AND
+        ( Final_marks.Stu_id = reg_no AND Final_marks.course_code = course_code);
+END //
+
+DELIMITER ;
+
+CALL GetStudentGradesINDIVIDUAL('stu_22_02','ICT1212');
+========================================================================================================================================
+GET GRADES FOR SUBJECT WITH MC
+========================================================================================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE GetAllStudentGradesWITHMC()
+BEGIN
+    SELECT
+        Final_marks.Stu_id,
+        Final_marks.course_code,
+        Final_marks.FINAL_MARK,
+        Student.Status,
+        IF(Medical.Reason = 'EXAM', 'MC',
+            IF(Student.Status = 'repeat', 'C',
+            IF(Final_marks.FINAL_MARK >= 90, 'A+',
+            IF(Final_marks.FINAL_MARK >= 84, 'A',
+            IF(Final_marks.FINAL_MARK >= 75, 'A-',
+            IF(Final_marks.FINAL_MARK >= 70, 'B+',
+            IF(Final_marks.FINAL_MARK >= 65, 'B',
+            IF(Final_marks.FINAL_MARK >= 60, 'B-',
+            IF(Final_marks.FINAL_MARK >= 55, 'C+',
+            IF(Final_marks.FINAL_MARK >= 50, 'C',
+            IF(Final_marks.FINAL_MARK >= 45, 'C-',
+            IF(Final_marks.FINAL_MARK >= 40, 'D+',
+            IF(Final_marks.FINAL_MARK >= 35, 'D', 'F'))))))))))))) AS Grade
+    FROM
+        Final_marks
+    JOIN
+        Student ON Final_marks.Stu_id = Student.Stu_id
+    LEFT JOIN
+        Medical ON Final_marks.Stu_id = Medical.Stu_id AND Final_marks.course_code = Medical.Course_code
+    WHERE
+        Medical.Reason IS NULL OR Medical.Reason = 'EXAM';
+    
+END //
+
+DELIMITER ;
+
+CALL GetAllStudentGradesWITHMC();
+
+===============================================================================================================================================
+ GET GRADES OF A STUDENT FOR ALL THE SUBJECT BY REG_NO(INDIVIDUAL)
+===============================================================================================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE GetStudentGrade(IN REG_NO VARCHAR (10))
+BEGIN
+    SELECT
+        Final_marks.Stu_id,
+        Final_marks.course_code,
+        Final_marks.FINAL_MARK,
+        Student.Status,
+        IF(Medical.Reason = 'EXAM', 'MC',
+            IF(Student.Status = 'repeat', 'C',
+            IF(Final_marks.FINAL_MARK >= 90, 'A+',
+            IF(Final_marks.FINAL_MARK >= 84, 'A',
+            IF(Final_marks.FINAL_MARK >= 75, 'A-',
+            IF(Final_marks.FINAL_MARK >= 70, 'B+',
+            IF(Final_marks.FINAL_MARK >= 65, 'B',
+            IF(Final_marks.FINAL_MARK >= 60, 'B-',
+            IF(Final_marks.FINAL_MARK >= 55, 'C+',
+            IF(Final_marks.FINAL_MARK >= 50, 'C',
+            IF(Final_marks.FINAL_MARK >= 45, 'C-',
+            IF(Final_marks.FINAL_MARK >= 40, 'D+',
+            IF(Final_marks.FINAL_MARK >= 35, 'D', 'F'))))))))))))) AS Grade
+    FROM
+        Final_marks
+    JOIN
+        Student ON Final_marks.Stu_id = Student.Stu_id
+    LEFT JOIN
+        Medical ON Final_marks.Stu_id = Medical.Stu_id AND Final_marks.course_code = Medical.Course_code
+    WHERE
+        Final_marks.Stu_id = REG_NO
+        AND (Medical.Reason IS NULL OR Medical.Reason = 'EXAM');
+END //
+
+DELIMITER ;
+
+CALL GETSTUDENTGRADE('STU_22_01');
+
+===================================================================================================================================================
+CREATE PROCEDURE FOR GET SGPA AND CGPA FOR WHOLE BATCH
+===================================================================================================================================================
+DELIMITER //
+
+CREATE PROCEDURE SGPA_CGPA_FOR_ALL()
+BEGIN
+	SELECT
+		SGPA.stu_id,SGPA.SGPA,CGPA.CGPA
+	FROM SGPA,CGPA
+	WHERE SGPA.stu_id=CGPA.stu_id;
+END //
+
+DELIMITER ;
+
+CALL SGPA_CGPA_FOR_ALL();
+
+=================================================================================================================================================
+CREATE PROCEDURE FOR GET SGPA AND CGPA FOR INDIVIDUAL
+=================================================================================================================================================
+DELIMITER //
+
+CREATE PROCEDURE SGPA_CGPA_FOR_INDIVIDUAL(IN stu_id CHAR(10))
+BEGIN
+	SELECT
+		SGPA.stu_id,SGPA.SGPA,CGPA.CGPA
+	FROM SGPA,CGPA
+	WHERE SGPA.stu_id=CGPA.stu_id AND SGPA.stu_id=stu_id;
+END //
+
+DELIMITER ;
+
+CALL SGPA_CGPA_FOR_INDIVIDUAL('stu_22_01');
+==================================================================================================================================================
+
+--------------------------------------------------------------------------
+CREATE USER ADMIN
+--------------------------------------------------------------------------
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'Adminpwd';
+
+GRANT ALL PRIVILEGES ON techmis.* TO 'admin'@'localhost'
+WITH GRANT OPTION;
+
+--------------------------------------------------------------------------
+CREATE USER DEAN
+--------------------------------------------------------------------------
+CREATE USER 'dean'@'localhost' IDENTIFIED BY 'Deanpwd';
+
+GRANT ALL PRIVILEGES ON techmis.* TO 'dean'@'localhost';
+
+--------------------------------------------------------------------------
+CREATE USER LECTURER
+--------------------------------------------------------------------------
+CREATE USER 'lec'@'localhost' IDENTIFIED BY 'Lecpwd';
+
+GRANT ALL PRIVILEGES ON techmis.* TO 'lec'@'localhost';
+
+--------------------------------------------------------------------------
+CREATE USER TO
+--------------------------------------------------------------------------
+CREATE USER 't_o'@'localhost' IDENTIFIED BY 'Topwd';
+
+GRANT SELECT,INSERT,UPDATE ON techmis.attendance TO 't_o'@'localhost';
+
+
+GRANT SELECT,INSERT,UPDATE ON techmis.attendance_count TO 't_o'@'localhost';
+
+
+GRANT SELECT,INSERT,UPDATE ON techmis.attendance_percentage TO 't_o'@'localhost';
+
+FLUSH PRIVILEGES;
+
+-------------------------------------------------------------------------
+CREATE USER STUDENT
+-------------------------------------------------------------------------
+CREATE USER 'student'@'localhost' IDENTIFIED BY 'Stupwd';
+
+GRANT SELECT ON techmis.final_eligibility TO 'student'@'localhost';
+
+GRANT SELECT ON techmis.final_marks TO 'student'@'localhost';
+
+
+GRANT SELECT ON techmis.cgpa TO 'student'@'localhost';
+
+
+GRANT SELECT ON techmis.sgpa TO 'student'@'localhost';
+
+
+FLUSH PRIVILEGES;
+
+------------------------------------------------------------------------
+		
+		
+		
+		
+
+
+
+
+
+
+
+
+
+
+
