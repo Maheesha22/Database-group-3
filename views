@@ -1,0 +1,54 @@
+============================================================================================================
+CREATE VIEW FOR GET FINAL MARKS
+============================================================================================================
+
+CREATE VIEW Final_marks AS
+     SELECT
+     Stu_id,course_code,((SUM(theory_end+practical_end))*2) AS FINAL_MARK
+     FROM marks
+	GROUP BY stu_id,course_code;
+
+============================================================================================================
+CREATE VIEW FOR GET TOTAL MID MARKS
+============================================================================================================
+
+CREATE VIEW mid_marks AS
+     SELECT
+     stu_id,course_code,(SUM(theory_mid+practical_mid))AS mid_mark
+     FROM marks
+     GROUP BY stu_id,course_code;
+
+============================================================================
+CREATE VIEW FOR GET TOTAL QUIZ + ASSIGNMENT MARKS
+============================================================================
+
+CREATE VIEW final_quiz_marks AS
+     SELECT
+     stu_id,course_code,(SUM(quiz+assignment))AS quiz_assignment_mark
+     FROM marks
+     GROUP BY stu_id,course_code;
+
+===========================================================================
+CREATE VIEW FOR DISPLAY ALL MARKS
+===========================================================================
+
+CREATE VIEW display_marks AS
+SELECT
+    final_marks.stu_id,
+    final_marks.course_code,
+    final_quiz_marks.quiz_assignment_mark,
+    mid_marks.mid_mark,
+    ca_marks.total_ca_marks,
+    final_marks.final_mark
+FROM
+    final_marks, final_quiz_marks, mid_marks, ca_marks
+WHERE
+    final_marks.stu_id = final_quiz_marks.stu_id
+    AND final_marks.course_code = final_quiz_marks.course_code
+    AND final_marks.stu_id = mid_marks.stu_id
+    AND final_marks.course_code = mid_marks.course_code
+    AND final_marks.stu_id = ca_marks.stu_id
+    AND final_marks.course_code = ca_marks.course_code
+GROUP BY
+    final_marks.stu_id, final_marks.course_code;
+=========================================================================
