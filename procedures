@@ -1,0 +1,136 @@
+===================================================================================================================
+GET ELIGIBILITY FOR THEORY BY GIVING STUDENT NO AND COURSE CODE
+===================================================================================================================
+
+
+DELIMITER //
+
+CREATE PROCEDURE GetTheoryAttendance(IN reg_no CHAR(10), IN course_code CHAR(10))
+BEGIN
+    SELECT
+        Student.Stu_id,
+        Student.Name,
+        Attendance_count.Course_code,
+        Attendance_count.sub_status,
+        Attendance_count.Present_Count,
+        (Attendance_count.Present_Count / 15) * 100 AS Attendance_Percentage,
+        CASE
+            WHEN (Attendance_count.Present_Count / 15) * 100 > 80.0000 THEN 'Eligible'
+            ELSE 'Not Eligible'
+        END AS Attendance_Eligibility
+    FROM
+        Student
+    JOIN
+        Attendance_count ON Student.Stu_id = Attendance_count.Stu_id
+    WHERE
+        Student.Stu_id = reg_no
+        AND Attendance_count.Course_code = course_code
+        AND Attendance_count.sub_status = 'Theory';
+END //
+
+DELIMITER ;
+
+CALL GetTheoryAttendance('stu_22_01', 'ICT1212');
+
+=============================================================================================
+GET PRACTICAL ELIGIBILITY BY GIVING STUDENT NO AND COURSE CODE
+=============================================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE GetPracticalAttendance(IN reg_no CHAR(10), IN course_code CHAR(10))
+BEGIN
+    SELECT
+        Student.Stu_id,
+        Student.Name,
+        Attendance_count.Course_code,
+        Attendance_count.sub_status,
+        Attendance_count.Present_Count,
+        (Attendance_count.Present_Count / 15) * 100 AS Attendance_Percentage,
+        CASE
+            WHEN (Attendance_count.Present_Count / 15) * 100 > 80.0000 THEN 'Eligible'
+            ELSE 'Not Eligible'
+        END AS Attendance_Eligibility
+    FROM
+        Student
+    JOIN
+        Attendance_count ON Student.Stu_id = Attendance_count.Stu_id
+    WHERE
+        Student.Stu_id = reg_no
+        AND Attendance_count.Course_code = course_code
+        AND Attendance_count.sub_status = 'practical';
+END //
+
+DELIMITER ;
+
+CALL GetPracticalAttendance('stu_22_01', 'ICT1222');
+
+==================================================================================================================
+CREATE PROCEDURE FOR CA MARKS FOR INDVIDUAL BY GIVING STUDENT NO AND COURSE CODE
+==================================================================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE GetindividualCA (IN Course_code CHAR(10),IN Stu_id CHAR(10))
+BEGIN
+	SELECT
+		CA_marks.stu_id,
+        	CA_marks.course_code,
+        	CA_marks.total_CA_marks,
+        	CA_marks_percentage.CA_marks_percentage
+	FROM
+		CA_marks,CA_marks_percentage
+	WHERE
+		CA_marks.stu_id = CA_marks_percentage.stu_id
+        	AND CA_marks.course_code = CA_marks_percentage.course_code
+		AND (CA_marks.course_code = course_code
+        		AND CA_marks.stu_id = stu_id)
+	GROUP BY 	
+       		CA_marks.stu_id, CA_marks.course_code;
+END //
+
+DELIMITER ;
+
+CALL GetindividualCA('ICT1212','stu_22_01');
+
+========================================================================================================================================
+GET GRADES FOR SUBJECT WITH MC FOR WHOLE BATCH
+========================================================================================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE GetAllStudentGradesWITHMC()
+BEGIN
+    SELECT
+        Final_marks.Stu_id,
+        Final_marks.course_code,
+        Final_marks.FINAL_MARK,
+        Student.Status,
+        IF(Medical.Reason = 'EXAM', 'MC',
+            IF(Student.Status = 'repeat', 'C',
+            IF(Final_marks.FINAL_MARK >= 90, 'A+',
+            IF(Final_marks.FINAL_MARK >= 84, 'A',
+            IF(Final_marks.FINAL_MARK >= 75, 'A-',
+            IF(Final_marks.FINAL_MARK >= 70, 'B+',
+            IF(Final_marks.FINAL_MARK >= 65, 'B',
+            IF(Final_marks.FINAL_MARK >= 60, 'B-',
+            IF(Final_marks.FINAL_MARK >= 55, 'C+',
+            IF(Final_marks.FINAL_MARK >= 50, 'C',
+            IF(Final_marks.FINAL_MARK >= 45, 'C-',
+            IF(Final_marks.FINAL_MARK >= 40, 'D+',
+            IF(Final_marks.FINAL_MARK >= 35, 'D', 'F'))))))))))))) AS Grade
+    FROM
+        Final_marks
+    JOIN
+        Student ON Final_marks.Stu_id = Student.Stu_id
+    LEFT JOIN
+        Medical ON Final_marks.Stu_id = Medical.Stu_id AND Final_marks.course_code = Medical.Course_code
+    WHERE
+        Medical.Reason IS NULL OR Medical.Reason = 'EXAM';
+    
+END //
+
+DELIMITER ;
+
+CALL GetAllStudentGradesWITHMC();
+==================================================================================================================
