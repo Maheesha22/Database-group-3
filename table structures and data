@@ -1,0 +1,125 @@
+---------------------------------------------------------------------
+CREATE  LECTURER TABLE
+---------------------------------------------------------------------
+CREATE TABLE Lecturer(
+	Lec_id CHAR(10)NOT NULL,
+	Name VARCHAR(30),
+	Email VARCHAR(50),
+	Dep_id CHAR(6),
+	PRIMARY KEY(Lec_id),
+	FOREIGN KEY(Dep_id)REFERENCES Department(Dep_id));
+
+INSERT INTO Lecturer VALUES
+('Lec_001','Sachitha lakal','sachithal@ictec.ruh.ac.lk','Dep001'),
+('Lec_002','Chanduni gamage','chaduni@ictec.ruh.ac.lk','Dep001'),
+('Lec_003','p.h.p Nuwan laksiri','nuwan@tec.ruh.ac.lk','Dep001'),
+('Lec_004','J.W.achini','achini@fot.ruh.ac.lk','Dep001'),
+('Lec_005','Rumechika arachi','rumechika@ictec.ruh.ac.lk','Dep001'),
+('Lec_006','Naween walimuli','Devindanaween@gmail.com','Dep004'),
+('Lec_007','Chathuranga Athikari','chathuranga@fot.ruh.ac.lk','Dep004');
+
+ALTER TABLE Lecturer
+     ADD COLUMN Phone_no VARCHAR(11) AFTER Dep_id;
+
+ALTER TABLE Lecturer
+    ADD COLUMN Residence VARCHAR(20)AFTER Phone_no;
+
+
+UPDATE Lecturer
+     SET Phone_no='077-5667123'
+     WHERE Lec_id='Lec_001';
+
+UPDATE Lecturer
+    SET Residence='Matara'
+    WHERE Lec_id='Lec_001';
+
+UPDATE Lecturer
+    SET Phone_no='077-5667234'
+    WHERE Lec_id='Lec_002';
+UPDATE Lecturer
+    SET Residence='Kamburupitiya'
+    WHERE Lec_id='Lec_002';
+
+
+UPDATE Lecturer
+     SET Phone_no='071-7572944',Residence='Galle'
+     WHERE Lec_id='Lec_003';
+
+
+UPDATE Lecturer
+     SET Phone_no='071-7572988',Residence='Thangalla'
+     WHERE Lec_id='Lec_004';
+
+UPDATE Lecturer
+    SET Phone_no='071-7572877',Residence='Weligama'
+    WHERE Lec_id='Lec_005';
+
+UPDATE Lecturer
+     SET Phone_no='071-7572255',Residence='Mirissa'
+     WHERE Lec_id='Lec_006';
+
+UPDATE Lecturer
+    SET Phone_no='071-7571566',Residence='Ragama'
+    WHERE Lec_id='Lec_007'
+
+---------------------------------------------------------------------
+CREATE DEPARTMENT TABLE
+---------------------------------------------------------------------
+CREATE TABLE Department(
+	Dep_id CHAR(6)NOT NULL,
+ 	Dep_name VARCHAR(50),
+	PRIMARY KEY(Dep_id));
+
+ALTER TABLE Department
+     ADD COLUMN Admin_id CHAR(10) ,
+     ADD COLUMN Dean_id CHAR(10);
+
+ALTER TABLE Department
+ADD FOREIGN KEY(Admin_id) REFERENCES Admin(Admin_id);
+
+ALTER TABLE Department
+ADD FOREIGN KEY(Dean_id) REFERENCES Dean(Dean_id);
+
+UPDATE Department
+     SET Admin_id='Ad002';
+
+UPDATE Department
+     SET Dean_id='De001';
+
+INSERT INTO Department VALUES
+ ('Dep001','Information communication technology '),
+ ('Dep002','Bio system technology '), 
+ ('Dep003','Engineering Technology '),
+ ('Dep004','Multidisciplinary');
+---------------------------------------------------------------------
+
+---------------------------------------------------------------------
+CREATE STUDENT TABLE
+---------------------------------------------------------------------
+CREATE TABLE Student(
+	Stu_id CHAR(10)NOT NULL,
+	Name VARCHAR(30),
+	Email VARCHAR(50),
+	Dep_id CHAR(6),
+	Enrollment_date DATE,  
+	Status VARCHAR(20),
+	PRIMARY KEY(Stu_id),
+	FOREIGN KEY(Dep_id)REFERENCES Department(Dep_id));
+
+INSERT INTO Student VALUES
+('Stu_22_01','Ishan Silva','ishan@gmail.com','Dep001','2022-06-02','Non_repeat'),
+('Stu_22_02','Shivin Jayawardena','shivin@gmail.com','Dep001','2022-06-02','Non_repeat'),
+('Stu_22_03','Sarath Bandara','sarath@gmail.com','Dep001','2022-06-02','Non_repeat'),
+('Stu_22_04','Isuri Rajapaksha','isuri7@gmail.com','Dep001','2022-06-02','Non_repeat'),
+('Stu_22_06','Jayani Wijesinghe','jayani@gmail.com','Dep001','2022-06-02','Non_repeat'),
+('Stu_22_07','Ishana Rathnayaka','ishana@gmail.com','Dep001','2022-06-02','Non_repeat'),
+('Stu_22_08','Aavish Karunarathne','aavish@gmail.com','Dep001','2022-06-02','Non_repeat'),
+('Stu_22_09','Tharindu Jayasuriya','tharindu@gmail.com','Dep001','2022-06-02','Non_repeat'),
+('Stu_22_10','Nimal Perera','nimal@gmail.com','Dep001','2022-06-02','Non_repeat'),
+('Stu_22_11','Anjali Silva','anjali@gmail.com','Dep001','2022-06-02','Non_repeat'),
+('Stu_21_22','Chanthura Bandara','chathura@gmail.com','Dep001','2021-06-02','Repeat'),
+('Stu_21_12','Pavithra jayasooriya','pavithra@gmail.com','Dep001','2021-06-02','Repeat'),
+('Stu_20_15','Sithra perera','sithra@gmail.com','Dep001','2021-06-02','Repeat'),
+('Stu_19_02','Nithmi wijesinghe','nithmi@gmail.com','Dep001','2021-06-02','Repeat'),
+('Stu_19_06','Hiruni bandara','hirunu@gmail.com','Dep001','2021-06-02','Repeat'),
+('Stu_18_07','Soduru mahinda','mahinda@gmail.com','Dep001','2019-09-23','Suspend');
