@@ -1,0 +1,73 @@
+==============================================================================================================================
+GET FINAL GRADE BY GIVING COURSE CODE
+==============================================================================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE GetStudentGrades(IN course_code CHAR(10))
+BEGIN
+    SELECT
+        Final_marks.Stu_id,
+        Final_marks.course_code,
+        Final_marks.FINAL_MARK,
+        Student.Status,
+        IF(Student.Status = 'repeat', 'C',
+            IF(Final_marks.FINAL_MARK >= 90, 'A+',
+            IF(Final_marks.FINAL_MARK >= 84, 'A',
+            IF(Final_marks.FINAL_MARK >= 75, 'A-',
+            IF(Final_marks.FINAL_MARK >= 70, 'B+',
+            IF(Final_marks.FINAL_MARK >= 65, 'B',
+            IF(Final_marks.FINAL_MARK >= 60, 'B-',
+            IF(Final_marks.FINAL_MARK >= 55, 'C+',
+            IF(Final_marks.FINAL_MARK >= 50, 'C',
+            IF(Final_marks.FINAL_MARK >= 45, 'C-',
+            IF(Final_marks.FINAL_MARK >= 40, 'D+',
+            IF(Final_marks.FINAL_MARK >= 35, 'D', 'F')))))))))))) AS Grade
+    FROM
+        Final_marks,student
+         
+    WHERE
+	Final_marks.Stu_id = Student.Stu_id AND
+        ( Final_marks.course_code = course_code);
+END //
+
+DELIMITER ;
+
+CALL GetStudentGrades('ICT1212');
+
+==============================================================================================================================
+GET FINAL GRADE BY GIVING COURSE CODE
+==============================================================================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE GetStudentGradesINDIVIDUAL(IN reg_no CHAR(10),IN course_code CHAR(10))
+BEGIN
+    SELECT
+        Final_marks.Stu_id,
+        Final_marks.course_code,
+        Final_marks.FINAL_MARK,
+        Student.Status,
+        IF(Student.Status = 'repeat', 'C',
+            IF(Final_marks.FINAL_MARK >= 90, 'A+',
+            IF(Final_marks.FINAL_MARK >= 84, 'A',
+            IF(Final_marks.FINAL_MARK >= 75, 'A-',
+            IF(Final_marks.FINAL_MARK >= 70, 'B+',
+            IF(Final_marks.FINAL_MARK >= 65, 'B',
+            IF(Final_marks.FINAL_MARK >= 60, 'B-',
+            IF(Final_marks.FINAL_MARK >= 55, 'C+',
+            IF(Final_marks.FINAL_MARK >= 50, 'C',
+            IF(Final_marks.FINAL_MARK >= 45, 'C-',
+            IF(Final_marks.FINAL_MARK >= 40, 'D+',
+            IF(Final_marks.FINAL_MARK >= 35, 'D', 'F')))))))))))) AS Grade
+    FROM
+        Final_marks,student
+         
+    WHERE
+	Final_marks.Stu_id = Student.Stu_id AND
+        ( Final_marks.Stu_id = reg_no AND Final_marks.course_code = course_code);
+END //
+
+DELIMITER ;
+
+CALL GetStudentGradesINDIVIDUAL('stu_22_02','ICT1212');
