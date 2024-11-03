@@ -1,0 +1,86 @@
+================================================================================================================
+CREATE PROCEDURE FOR FINAL MARKS FOR INDIVIDUAL BY GIVING REGISTRATON NO
+================================================================================================================
+DELIMITER //
+
+CREATE PROCEDURE Getfinalsummary(IN Stu_id CHAR(10))
+BEGIN
+	SELECT
+		final_marks.stu_id,
+        	final_marks.course_code,
+        	final_marks.final_mark
+	FROM
+		final_marks
+	WHERE
+		final_marks.stu_id=stu_id
+	GROUP BY 	
+       		final_marks.stu_id, final_marks.course_code;
+END //
+
+DELIMITER ;
+
+CALL Getfinalsummary('stu_22_03');
+
+================================================================================================================
+CREATE PROCEDURE FOR FINAL MARKS BY GIVING COURSE CODE FOR WHOLE BATCH 
+=================================================================================================================
+DELIMITER //
+
+CREATE PROCEDURE Getfinalmarkswhole(IN course_code CHAR(10))
+BEGIN
+    SELECT
+        final_marks.stu_id,
+        final_marks.course_code,
+        final_marks.final_mark
+       
+    FROM
+        final_marks
+    
+    WHERE
+        final_marks.course_code = course_code
+    GROUP BY
+        final_marks.stu_id, final_marks.course_code;
+END //
+
+DELIMITER ;
+
+CALL  Getfinalmarkswhole('ICT1222');
+
+===================================================================================================================
+=============================================
+GET FINAL GRADE BY GIVING REG_NUM & COURSE CODE
+==============================================================================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE GetStudentGradesINDIVIDUAL(IN reg_no CHAR(10),IN course_code CHAR(10))
+BEGIN
+    SELECT
+        Final_marks.Stu_id,
+        Final_marks.course_code,
+        Final_marks.FINAL_MARK,
+        Student.Status,
+        IF(Student.Status = 'repeat', 'C',
+            IF(Final_marks.FINAL_MARK >= 90, 'A+',
+            IF(Final_marks.FINAL_MARK >= 84, 'A',
+            IF(Final_marks.FINAL_MARK >= 75, 'A-',
+            IF(Final_marks.FINAL_MARK >= 70, 'B+',
+            IF(Final_marks.FINAL_MARK >= 65, 'B',
+            IF(Final_marks.FINAL_MARK >= 60, 'B-',
+            IF(Final_marks.FINAL_MARK >= 55, 'C+',
+            IF(Final_marks.FINAL_MARK >= 50, 'C',
+            IF(Final_marks.FINAL_MARK >= 45, 'C-',
+            IF(Final_marks.FINAL_MARK >= 40, 'D+',
+            IF(Final_marks.FINAL_MARK >= 35, 'D', 'F')))))))))))) AS Grade
+    FROM
+        Final_marks,student
+         
+    WHERE
+	Final_marks.Stu_id = Student.Stu_id AND
+        ( Final_marks.Stu_id = reg_no AND Final_marks.course_code = course_code);
+END //
+
+DELIMITER ;
+
+CALL GetStudentGradesINDIVIDUAL('stu_22_02','ICT1212');
+========================================================================================================================================
