@@ -1,0 +1,56 @@
+============================================================================
+CREATE VIEW FOR GET ATTENDANCE COUNT
+============================================================================
+
+CREATE VIEW Attendance_count AS
+SELECT
+    attendance.Stu_id,
+    attendance.Course_code,
+    attendance.sub_status,
+    COUNT(IF(attendance.type = 'present', 1, NULL)) AS Present_Count
+FROM
+    attendance
+JOIN
+    student ON attendance.Stu_id = student.Stu_id
+WHERE
+    student.status = 'non_repeat'
+GROUP BY
+    attendance.Stu_id,
+    attendance.Course_code,
+    attendance.sub_status;
+
+
+============================================================================
+CREATE VIEW FOR GET ATTENDANCE PERCENTAGE
+============================================================================
+
+CREATE VIEW Attendance_percentage AS
+SELECT
+    Stu_id,
+    Course_code,
+    sub_status,
+    Present_Count,
+    (Present_Count / 15) * 100 AS Attendance_Percentage
+FROM
+    Attendance_count;
+
+========================================================================================================
+============================================================================================
+CREATE VIEW FOR CALCULATE SGPA
+============================================================================================
+
+CREATE VIEW SGPA AS
+SELECT
+    grade_points.stu_id,
+    (SUM(grade_points.grade_point * course_unit.credit) / SUM(course_unit.credit)) AS SGPA
+FROM
+    grade_points,student_course,course_unit
+where
+    grade_points.course_code = student_course.course_code
+	AND
+    student_course.course_code = course_unit.course_code
+GROUP BY
+    grade_points.stu_id;
+
+
+==============================================================================================
