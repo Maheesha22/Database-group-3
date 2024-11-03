@@ -1,0 +1,83 @@
+CREATE TABLE Attendance(
+	Stu_id CHAR(10),
+	Course_code CHAR(10),
+	Date DATE,
+	Type VARCHAR(20),
+	Sub_status VARCHAR(12),
+	FOREIGN KEY(Stu_id) REFERENCES Student(Stu_id),
+	FOREIGN KEY(Course_code) REFERENCES Course_unit(Course_code));
+
+ALTER TABLE Attendance
+ADD PRIMARY KEY(Stu_id,Course_code,Date,Sub_status);
+
+---------------------------------------------------------------------------------
+CREATE TABLE Medical(
+	Medi_no CHAR(6)NOT NULL,
+	Course_code CHAR(10),
+	Stu_id CHAR(10),
+	Submit_date DATE,
+	M_status VARCHAR(20),
+	PRIMARY KEY(Medi_no),
+	FOREIGN KEY(Stu_id) REFERENCES Student(Stu_id),
+	FOREIGN KEY(Course_code) REFERENCES Course_unit(Course_code));
+
+INSERT INTO Medical values
+('M001','ICT1212','Stu_22_01','2024-08-13','APPROVED'),
+('M002','ICT1212','stu_22_01','2024-08-20','PENDING'),
+('M003','ICT1212','stu_22_01','2024-08-27','PENDING'),
+('M004','ICT1212','stu_22_01','2024-09-01','PENDING'),
+('M005','ENG1222','stu_22_02','2024-08-02','APPROVED'),
+('M006','ENG1222','stu_22_02','2024-08-09','APPROVED'),
+('M007','ENG1222','stu_22_02','2024-09-16','APPROVED'),
+('M008','ENG1222','stu_22_02','2024-09-23','APPROVED'),
+('M009','ICT1212','stu_22_03','2024-11-12','APPROVED');
+
+
+ALTER TABLE MEDICAL  ADD COLUMN  Reason VARCHAR (20);
+
+UPDATE MEDICAL
+    	SET REASON ='LECTURE'
+    	WHERE MEDI_NO BETWEEN 'M001' AND 'M008';
+
+UPDATE MEDICAL
+    	 SET REASON='EXAM'
+    	 WHERE MEDI_NO='M009';
+
+--------------------------------------------------------------------------------------
+
+
+CREATE TABLE Course_unit(
+	Course_code CHAR(10)NOT NULL,
+	Course_name VARCHAR(40),
+	Dep_id CHAR(6),
+	Lec_id CHAR(10),
+	Type VARCHAR(20),
+	Credit INT,
+	PRIMARY KEY(Course_code),
+	FOREIGN KEY(Dep_id)REFERENCES Department(Dep_id),
+	FOREIGN KEY(Lec_id)REFERENCES Lecturer(Lec_id));
+5
+INSERT INTO Course_unit VALUES
+('ICT1212','Database management system ','Dep001','Lec_003','Theory',2),
+('ICT1222','Database management system practicum','Dep001','Lec_003','Practical',2),
+('ENG1222','English II','Dep004','Lec_006','Theory',2),
+('ICT1233','Server side web development','Dep001','Lec_006','Theory & Practical ',3),
+('ICT1242','Computer Architecture','Dep001','Lec_001','Theory',2),
+('ICT1253','Computer Network ','Dep001','Lec_002','Theory & Practical ',3),
+('TMS1233','Discrete Mathematics','Dep003','Lec_004','Theory',3),
+('TMS1212','Fundamental of Management','Dep004','Lec_007','Theory',2);
+
+SELECT CONSTRAINT_NAME
+     FROM information_schema.KEY_COLUMN_USAGE
+     WHERE TABLE_NAME = 'Course_unit'
+     AND COLUMN_NAME = 'Lec_id'
+     AND TABLE_SCHEMA = 'techmis';
+
+
+ALTER TABLE Course_unit
+     DROP FOREIGN KEY course_unit_ibfk_2;
+
+ ALTER TABLE Course_unit
+     DROP COLUMN Lec_id;
+
+
