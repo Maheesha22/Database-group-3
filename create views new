@@ -1,0 +1,82 @@
+========================================================================================================
+CREATE VIEW FOR GET ATTENDANCE ELIGIBILITY
+========================================================================================================
+
+CREATE VIEW Eligibility AS
+SELECT
+    Stu_id,
+    Course_code,
+    sub_status,
+    Attendance_Percentage,
+    IF(Attendance_Percentage > 80.0000, 'eligible', 'not eligible') AS Eligibility_Status
+FROM
+    Attendance_percentage;
+  -------------------------------------------------------------------------------------------------------
+  
+ ============================================================================================================
+CREATE VIEW FOR GET TOTAL CA MARKS
+============================================================================================================
+
+CREATE VIEW CA_marks AS
+SELECT
+	stu_id,
+	course_code,
+	Quiz,
+	Assignment,
+	theory_mid,
+	practical_mid,
+		SUM(quiz+assignment+theory_mid+practical_mid)AS total_CA_marks
+	FROM marks
+	GROUP BY stu_id,course_code;
+------------------------------------------------------------------------------------------------------------
+
+  ============================================================================================================
+CREATE VIEW FOR GET ELIGIBILITY FOR FINAL EXAM
+============================================================================================================
+
+CREATE VIEW Final_Eligibility AS
+SELECT
+    e.Stu_id,
+    e.Course_code,
+    e.Eligibility_Status,
+    ca.CA_Eligibility,
+    CASE
+        WHEN e.Eligibility_Status = 'eligible' AND ca.CA_Eligibility = 'Eligible' THEN 'Eligible for Final Exam'
+        ELSE 'Not Eligible for Final Exam'
+    END AS Final_Exam_Eligibility
+FROM
+    Eligibility e
+JOIN
+    Eligibility_CA ca ON e.Stu_id = ca.stu_id AND e.Course_code = ca.course_code;
+      ------- ---------------------------------------------------------------------------------------------------
+
+      
+=========================================================================================================
+CREATE VIEW FOR GET GRADE POINT FOR GPA CALCULATION
+==========================================================================================================
+
+CREATE VIEW Grade_Points AS
+SELECT
+    FINAL_MARKS.Stu_id,
+    FINAL_MARKS.course_code,
+    FINAL_MARK,
+    STUDENT.Status,
+    IF(Status = 'repeat', 2.0,
+        IF(FINAL_MARK >= 90, 4.0,
+        IF(FINAL_MARK >= 84, 4.0,
+        IF(FINAL_MARK >= 75, 3.7,
+        IF(FINAL_MARK >= 70, 3.3,
+        IF(FINAL_MARK >= 65, 3.0,
+        IF(FINAL_MARK >= 60, 2.7,
+        IF(FINAL_MARK >= 55, 2.3,
+        IF(FINAL_MARK >= 50, 2.0,
+        IF(FINAL_MARK >= 45, 1.7,
+        IF(FINAL_MARK >= 40, 1.3,
+        IF(FINAL_MARK >= 35, 1.0, 0.0)))))))))))) AS Grade_Point
+FROM
+    Final_marks,student
+WHERE
+     Final_marks.Stu_id = Student.Stu_id;
+      ------------------------------------------------------------------------------------------------------------
+      
+  
