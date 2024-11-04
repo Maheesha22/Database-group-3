@@ -35,39 +35,51 @@ DELIMITER ;
 
 CALL GetStudentGrades('ICT1212');
 
-==============================================================================================================================
-GET FINAL GRADE BY GIVING COURSE CODE
-==============================================================================================================================
+
+============================================================================================================================
+CREATE PROCEDURES GET FINAL ELIGIBILITY FOR INDIVIDUALS BY GIVING STUDENT NUMBER
+============================================================================================================================
 
 DELIMITER //
 
-CREATE PROCEDURE GetStudentGradesINDIVIDUAL(IN reg_no CHAR(10),IN course_code CHAR(10))
+CREATE PROCEDURE GetFinalEligibilityALL(IN reg_no CHAR(10))
 BEGIN
     SELECT
-        Final_marks.Stu_id,
-        Final_marks.course_code,
-        Final_marks.FINAL_MARK,
-        Student.Status,
-        IF(Student.Status = 'repeat', 'C',
-            IF(Final_marks.FINAL_MARK >= 90, 'A+',
-            IF(Final_marks.FINAL_MARK >= 84, 'A',
-            IF(Final_marks.FINAL_MARK >= 75, 'A-',
-            IF(Final_marks.FINAL_MARK >= 70, 'B+',
-            IF(Final_marks.FINAL_MARK >= 65, 'B',
-            IF(Final_marks.FINAL_MARK >= 60, 'B-',
-            IF(Final_marks.FINAL_MARK >= 55, 'C+',
-            IF(Final_marks.FINAL_MARK >= 50, 'C',
-            IF(Final_marks.FINAL_MARK >= 45, 'C-',
-            IF(Final_marks.FINAL_MARK >= 40, 'D+',
-            IF(Final_marks.FINAL_MARK >= 35, 'D', 'F')))))))))))) AS Grade
+        FINAL_eligibility.stu_id,
+        FINAL_eligibility.course_code,
+        FINAL_eligibility.CA_Eligibility,
+        FINAL_eligibility.Eligibility_Status,
+        FINAL_eligibility.Final_Exam_eligibility
     FROM
-        Final_marks,student
-         
+        FINAL_eligibility
     WHERE
-	Final_marks.Stu_id = Student.Stu_id AND
-        ( Final_marks.Stu_id = reg_no AND Final_marks.course_code = course_code);
+        FINAL_eligibility.stu_id = reg_no;
+        
+END //
+DELIMITER ;
+
+CALL GetFINALEligibilityALL('STU_22_04');
+
+============================================================================================================================
+CREATE PROCEDURE FOR DISPLAY ALL MARKS FOR INDIVIDUAL
+============================================================================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE getallmarksindividual(IN reg_no CHAR(10))
+BEGIN
+	SELECT
+		display_marks.stu_id,
+		display_marks.course_code,
+		display_marks.quiz_assignment_mark,
+		display_marks.mid_mark,
+		display_marks.total_ca_marks,
+		display_marks.final_mark
+	FROM display_marks
+	WHERE display_marks.stu_id=reg_no;
 END //
 
 DELIMITER ;
 
-CALL GetStudentGradesINDIVIDUAL('stu_22_02','ICT1212');
+CALL getallmarksindividual('stu_22_01');
+
