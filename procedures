@@ -134,3 +134,28 @@ DELIMITER ;
 
 CALL GetAllStudentGradesWITHMC();
 ==================================================================================================================
+
+===================================================================================================================
+CHECK ELIGIBILITY FOR CA +ATTENDANCE FOR INDIVIDUAL GIVING STU_ID & COURSE CODE
+===================================================================================================================
+
+DELIMITER //
+
+CREATE PROCEDURE GetFinalEligibility(IN reg_no CHAR(10), IN course_code CHAR(10))
+BEGIN
+    SELECT
+        FINAL_eligibility.stu_id,
+        FINAL_eligibility.course_code,
+        FINAL_eligibility.CA_Eligibility,
+        FINAL_eligibility.Eligibility_Status,
+        FINAL_eligibility.Final_Exam_eligibility
+    FROM
+        FINAL_eligibility
+    WHERE
+        FINAL_eligibility.stu_id = reg_no
+        AND FINAL_eligibility.course_code = course_code;
+END //
+
+DELIMITER ;
+
+CALL GetFINALEligibility('STU_22_04', 'ICT1212');
