@@ -84,3 +84,37 @@ DELIMITER ;
 
 CALL GetStudentGradesINDIVIDUAL('stu_22_02','ICT1212');
 ========================================================================================================================================
+===================================================================================================================================================
+CREATE PROCEDURE FOR GET SGPA AND CGPA FOR WHOLE BATCH
+===================================================================================================================================================
+DELIMITER //
+
+CREATE PROCEDURE SGPA_CGPA_FOR_ALL()
+BEGIN
+	SELECT
+		SGPA.stu_id,SGPA.SGPA,CGPA.CGPA
+	FROM SGPA,CGPA
+	WHERE SGPA.stu_id=CGPA.stu_id;
+END //
+
+DELIMITER ;
+
+CALL SGPA_CGPA_FOR_ALL();
+
+=================================================================================================================================================
+CREATE PROCEDURE FOR GET SGPA AND CGPA FOR INDIVIDUAL
+=================================================================================================================================================
+DELIMITER //
+
+CREATE PROCEDURE SGPA_CGPA_FOR_INDIVIDUAL(IN stu_id CHAR(10))
+BEGIN
+	SELECT
+		SGPA.stu_id,SGPA.SGPA,CGPA.CGPA
+	FROM SGPA,CGPA
+	WHERE SGPA.stu_id=CGPA.stu_id AND SGPA.stu_id=stu_id;
+END //
+
+DELIMITER ;
+
+CALL SGPA_CGPA_FOR_INDIVIDUAL('stu_22_01');
+=========================================
